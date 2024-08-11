@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios'; // axios 가져오기
 
 function App() {
+  const [message, setMessage] = useState('');
+
+  const fetchData = async () => {
+    try {
+      // axios를 사용하여 HTTP GET 요청 보내기
+      const response = await axios.get('http://192.168.65.5:3333/');
+      setMessage(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>React to Node.js Example</h1>
+      <button onClick={fetchData}>Fetch Message</button>
+      {message && <p>{message}</p>}
     </div>
   );
 }

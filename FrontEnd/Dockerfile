@@ -6,4 +6,6 @@ COPY ./react_pj .
 
 WORKDIR /react_pj
 
-CMD ["npm","run","start"]
+RUN npm install
+
+CMD ["npm","start"]
