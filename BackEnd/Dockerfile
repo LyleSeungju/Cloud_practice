@@ -1,6 +1,6 @@
 FROM node:22-alpine
 
-EXPOSE 3333
+EXPOSE 8080
 
 COPY ./nodejs .
 
