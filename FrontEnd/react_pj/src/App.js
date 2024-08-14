@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // axios 가져오기
 
 function App() {
   const [message, setMessage] = useState('');
@@ -7,9 +7,7 @@ function App() {
   const fetchData = async () => {
     try {
       // axios를 사용하여 HTTP GET 요청 보내기
-      const response = await axios.get('http://52.78.170.185/getData'); 
-      // 또는
-      // const response = await axios.get('http://192.168.1.100/getData'); 
+      const response = await axios.get('http://192.168.3.98:8080/getData');
       setMessage(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -24,5 +22,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
