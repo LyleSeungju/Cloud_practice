@@ -7,7 +7,7 @@ function App() {
   const fetchData = async () => {
     try {
       // axios를 사용하여 HTTP GET 요청 보내기
-      const response = await axios.get('http://192.168.3.98:8080/getData');
+      const response = await axios.get('http://52.78.170.185/getData');
       setMessage(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
