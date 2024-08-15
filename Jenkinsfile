@@ -10,14 +10,16 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                branch: 'main', url: "https://github.com/${REPO}"
+                // Git 소스 코드를 체크아웃하는 단계
+                git branch: 'main', url: "https://github.com/${REPO}.git", credentialsId: 'github_for_jenkins'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${ECR_REPO}-Front:latest", "-f FrontEnd/Dockerfile .")
+                    // Docker 이미지를 빌드하는 단계
+                    dockerImage = docker.build("${ECR_REPO}-front:latest", "-f FrontEnd/Dockerfile .")
                 }
             }
         }
@@ -25,6 +27,7 @@ pipeline {
         stage('Push to ECR') {
             steps {
                 script {
+                    // ECR에 Docker 이미지를 푸시하는 단계
                     docker.withRegistry("https://${ECR_REPO}", "$ECR_CREDENTIALS_ID") {
                         dockerImage.push('latest')
                     }
