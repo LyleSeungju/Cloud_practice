@@ -28,14 +28,24 @@ app.get('/', (req, res) => {
   res.send('Hello from Node.js!');
 });
 
-// 데이터베이스에서 데이터를 가져오는 예제 라우트
 app.get('/test-db', (req, res) => {
-  connection.query('SELECT NOW() as now', (err, results) => {
+  const query = `
+    SELECT 
+      DATABASE() as database_name, 
+      NOW() as current_time, 
+      VERSION() as mysql_version
+  `;
+  
+  connection.query(query, (err, results) => {
     if (err) {
       res.status(500).send('Error querying the database');
       return;
     }
-    res.send(`Database time is: ${results[0].now}`);
+    res.json({
+      database_name: results[0].database_name,
+      current_time: results[0].current_time,
+      mysql_version: results[0].mysql_version
+    });
   });
 });
 
