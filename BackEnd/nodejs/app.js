@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err);
-    process.exit(1); // 데이터베이스 연결에 실패하면 애플리케이션을 종료합니다.
+    return;
   } else {
     console.log('Connected to the database.');
   }
