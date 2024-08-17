@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   host: 'moreburger-database.cz0oi80og7ce.ap-northeast-2.rds.amazonaws.com',
   user: 'moreburger_admin',
   password: 'kakao-moreburger-admin',
-  database: 'moreburger-database'
+  database: 'cloud_test'
 });
 
 // 데이터베이스 연결 테스트
