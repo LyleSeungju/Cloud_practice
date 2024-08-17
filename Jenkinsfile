@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         REPO = 'KakaoTech-team20/Cloud_practice'
-        ECR_REPO = '211125697339.dkr.ecr.ap-northeast-2.amazonaws.com/front_react'
-        ECR_CREDENTIALS_ID = 'ecr:ap-northeast-2:Moreburger-ECR-Back'
+        ECR_REPO = '211125697339.dkr.ecr.ap-northeast-2.amazonaws.com/back_node'
+        ECR_CREDENTIALS_ID = 'ecr:ap-northeast-2:moreburgerIAM'
     }
 
     stages {
