@@ -11,41 +11,35 @@ const connection = mysql.createConnection({
   host: 'moreburger-database.cz0oi80og7ce.ap-northeast-2.rds.amazonaws.com',
   user: 'moreburger_admin',
   password: 'kakao-moreburger-admin',
-  database: 'moreburger-database'
+  database: 'cloud_test'
 });
 
 // 데이터베이스 연결 테스트
 connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to the database:', err.stack);
+    console.error('Error connecting to the database:', err);
     return;
+  } else {
+    console.log('Connected to the database.');
   }
-  console.log('Connected to the database.');
 });
 
 // 기본 라우트
-app.get('/', (req, res) => {
+app.get('/getData', (req, res) => {
   res.send('Hello from Node.js!');
 });
 
-app.get('/test-db', (req, res) => {
-  const query = `
-    SELECT 
-      DATABASE() as database_name, 
-      NOW() as current_time, 
-      VERSION() as mysql_version
-  `;
-  
+// 데이터 조회 라우트
+app.get('/data', (req, res) => {
+  const query = 'SELECT * FROM new_table';
+
   connection.query(query, (err, results) => {
     if (err) {
-      res.status(500).send('Error querying the database');
+      console.error('쿼리 실행 오류:', err);
+      res.status(500).send('서버 오류');
       return;
     }
-    res.json({
-      database_name: results[0].database_name,
-      current_time: results[0].current_time,
-      mysql_version: results[0].mysql_version
-    });
+    res.json(results); // 조회된 데이터를 클라이언트에게 JSON 형식으로 반환합니다.
   });
 });
 
