@@ -42,13 +42,13 @@ pipeline {
                         // SSH를 통해 EC2에 연결하고, ECR 이미지를 가져와 실행
                         sshagent([SSH_CREDENTIALS_ID]) {
                             sh """
-                            ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} << EOF
+                            ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} '
                             aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO}
                             docker pull ${ECR_REPO}:latest
                             docker stop node_server || true
                             docker rm node_server || true
-                            docker run -d --name node_server -p 8080:8080 ${ECR_REPO}:latest
-                            EOF
+                            docker run -d --name node_server -p 80:80 ${ECR_REPO}:latest
+                            '
                             """
                         }
                     }
