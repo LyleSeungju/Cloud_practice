@@ -47,7 +47,7 @@ pipeline {
                             docker pull ${ECR_REPO}:latest
                             docker stop node_server || true
                             docker rm node_server || true
-                            docker run -d --name node_server -p 80:80 ${ECR_REPO}:latest
+                            docker run -d --name node_server -p 8080:8080 ${ECR_REPO}:latest
                             '
                             """
                         }
