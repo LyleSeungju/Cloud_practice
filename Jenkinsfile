@@ -34,5 +34,19 @@ pipeline {
                 }
             }
         }
+        stage('Cleanup Local Docker Images') {
+            steps {
+                script {
+                    // 로컬 Docker 이미지를 삭제하는 단계
+                    sh "docker rmi ${ECR_REPO}:latest || true"
+                }
+            }
+        }
+    }
+    post {
+        always {
+            // Cleanup: 로컬 Docker 시스템을 정리
+            sh 'docker system prune -f'
+        }
     }
 }
