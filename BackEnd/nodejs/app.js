@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
 // 데이터베이스 연결 테스트
 connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to the database:', err.stack);
+    console.error('Error connecting to the database:', err);
     return;
   }
   console.log('Connected to the database.');
@@ -28,26 +28,19 @@ app.get('/getData', (req, res) => {
   res.send('Hello from Node.js!');
 });
 
-app.get('/test-db', (req, res) => {
-  const query = `
-    SELECT 
-      DATABASE() as database_name, 
-      NOW() as current_time, 
-      VERSION() as mysql_version
-  `;
+app.get('/data', (req, res) => {
+  const query = 'SELECT * FROM new_table';
   
   connection.query(query, (err, results) => {
     if (err) {
-      res.status(500).send('Error querying the database');
+      console.error('쿼리 실행 오류:', err);
+      res.status(500).send('서버 오류');
       return;
     }
-    res.json({
-      database_name: results[0].database_name,
-      current_time: results[0].current_time,
-      mysql_version: results[0].mysql_version
-    });
+    res.json(results);
   });
 });
+
 
 // 서버 시작
 const port = 8080;
