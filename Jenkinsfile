@@ -5,6 +5,7 @@ pipeline {
         REPO = 'KakaoTech-team20/Cloud_practice'
         ECR_REPO = '211125697339.dkr.ecr.ap-northeast-2.amazonaws.com/back_node'
         ECR_CREDENTIALS_ID = 'ecr:ap-northeast-2:moreburgerIAM'
+        SSH_CREDENTIALS_ID = 'EC2_ssh_key'
     }
 
     stages {
@@ -34,6 +35,27 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to EC2') {
+            steps {
+                withCredentials([string(credentialsId: 'SSH_node_key', variable: 'EC2_INSTANCE_IP')]) {
+                    script {
+                        // SSH를 통해 EC2에 연결하고, ECR 이미지를 가져와 실행
+                        sshagent([SSH_CREDENTIALS_ID]) {
+                            sh """
+                            ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} << EOF
+                            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO}
+                            docker pull ${ECR_REPO}:latest
+                            docker stop node_server || true
+                            docker rm node_server || true
+                            docker run -d --name node_server -p 8080:8080 ${ECR_REPO}:latest
+                            EOF
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        
         stage('Cleanup Local Docker Images') {
             steps {
                 script {
