@@ -58,7 +58,7 @@ app.get('/getData/getDB', (req, res) => {
 });
 
 // 이미지 업로드 라우트
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/getData/upload', upload.single('image'), (req, res) => {
   const file = req.file;
   const s3Bucket = 'kakao-moreburger-backend';
 
