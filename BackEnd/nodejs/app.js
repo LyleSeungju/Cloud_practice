@@ -24,7 +24,7 @@ connection.connect((err) => {
 });
 
 // 기본 라우트
-app.get('/', (req, res) => {
+app.get('/getData', (req, res) => {
   res.send('Hello from Node.js!');
 });
 
