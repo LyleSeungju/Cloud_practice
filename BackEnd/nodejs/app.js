@@ -30,7 +30,9 @@ app.get('/getData', (req, res) => {
 });
 
 // 데이터 조회 라우트
+
 app.get('/getData/getDB', (req, res) => {
+
   const query = 'SELECT * FROM new_table';
 
   connection.query(query, (err, results) => {
